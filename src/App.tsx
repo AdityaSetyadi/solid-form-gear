@@ -1,17 +1,18 @@
 import type { Component } from 'solid-js';
 import { FormGear } from 'form-gear';
 import {  } from '../node_modules/form-gear/dist/style.css'
+import template  from './data/template.json'
+import preset  from './data/preset.json'
+import response  from './data/response.json'
+import validation  from './data/validation.json'
+import remark  from './data/remark.json'
 
 
 
 const App: Component = () => {
   
     const data = Promise.all([
-      fetch("../src/data/template.json").then((res) => res.json()),
-      fetch("../src/data/preset.json").then((res) => res.json()),
-      fetch("../src/data/response.json").then((res) => res.json()),
-      fetch("../src/data/validation.json").then((res) => res.json()),
-      fetch("../src/data/remark.json").then((res) => res.json())
+      template, preset, response, validation, remark
     ]);
 
     
