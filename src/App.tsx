@@ -11,13 +11,6 @@ import remark  from './data/remark.json'
 
 const App: Component = () => {
   
-    const data = Promise.all([
-      template, preset, response, validation, remark
-    ]);
-
-    
-    data.then(([template, preset, response, validation, remark]) => initForm(template, preset, response, validation, remark));
-
     function initForm(template:any, preset:any, response:any, validation:any, remark:any){
 
       let config = {
@@ -104,6 +97,13 @@ const App: Component = () => {
 
       return form;
     }
+    
+    const data = Promise.all([
+      template, preset, response, validation, remark
+    ]);
+    
+    data.then(([template, preset, response, validation, remark]) => initForm(template, preset, response, validation, remark));
+
 
   return (
     <div >
