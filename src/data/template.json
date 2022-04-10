@@ -278,7 +278,7 @@
                               "renderType":1
                            },
                            {
-                              "label":"Social Media",
+                              "label":"Number of Social Media",
                               "dataKey":"social_media",
                               "type":28
                            },
