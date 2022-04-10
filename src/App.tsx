@@ -26,7 +26,8 @@ const App: Component = () => {
         baseUrl: `https://api-survey.bps.go.id/designer/api/lookup-data/json`,
         lookupKey: `key%5B%5D`,
         lookupValue: `value%5B%5D`,
-        username: 'AdityaSetyadi'
+        username: 'AdityaSetyadi',
+        formMode: 1 // 1 => OPEN ; 2 => REJECTED ; 3 => SUBMITTED ; 4 => APPROVED ;  
       }
       
 
