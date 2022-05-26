@@ -10,7 +10,6 @@ import validation  from './data/validation.json'
 import remark  from './data/remark.json'
 
 
-
 const App: Component = () => {
   
     function initForm(reference: any, template:any, preset:any, response:any, validation:any, remark:any){
