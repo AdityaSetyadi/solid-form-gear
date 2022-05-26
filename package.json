@@ -15,7 +15,7 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
-    "form-gear": "^0.1.0",
-    "solid-js": "^1.3.13"
+    "form-gear": "^0.1.2",
+    "solid-js": "1.3.13"
   }
 }

@@ -1,6 +1,8 @@
 import type { Component } from 'solid-js';
+//@ts-ignore
 import { FormGear } from 'form-gear';
 import {  } from '../node_modules/form-gear/dist/style.css'
+import reference  from './data/reference.json'
 import template  from './data/template.json'
 import preset  from './data/preset.json'
 import response  from './data/response.json'
@@ -11,7 +13,7 @@ import remark  from './data/remark.json'
 
 const App: Component = () => {
   
-    function initForm(template:any, preset:any, response:any, validation:any, remark:any){
+    function initForm(reference: any, template:any, preset:any, response:any, validation:any, remark:any){
 
       let config = {
         clientMode: 1, // CAWI = 1, CAPI = 2
@@ -19,8 +21,10 @@ const App: Component = () => {
         baseUrl: `https://api-survey.bps.go.id/designer/api/lookup-data/json`,
         lookupKey: `key%5B%5D`,
         lookupValue: `value%5B%5D`,
-        username: 'AdityaSetyadi',
-        formMode: 1 // 1 => OPEN ; 2 => REJECTED ; 3 => SUBMITTED ; 4 => APPROVED ;  
+        lookupMode : 1, // 1 => ONLINE ; 2 => OFFLINE
+        username: 'AdityaSetyadi', //
+        formMode: 1, // 1 => OPEN ; 2 => REJECTED ; 3 => SUBMITTED ; 4 => APPROVED ;
+        initialMode: 2 // 1=> INITIAL ; 2 => ASSIGN
       }
       
 
@@ -40,11 +44,40 @@ const App: Component = () => {
         // openCamera();
       }
 
+      let offlineSearch = function (id:any, version:any, dataJson:any, setter:any) {
+  
+        let condition = JSON.stringify(dataJson)
+      
+        //here we use jquery to retrieve data from the local device
+        //@ts-ignore
+        $.ajax({
+          url: `http://localhost:9090/lookup?id=${id}&v=${version}&c=${condition}`,//specify localhost endpoint to fetch
+          type: "GET",
+          crossDomain: true,
+          dataType: "json",
+          data: null,
+          success: function(d:any) {
+              console.log(d.hasil)
+              setter(d)
+      
+              },
+          error: function(XMLHttpRequest:any, textStatus:any, errorThrown:any) {
+      
+          }
+      });
+      
+      }
+      
       let GpsHandler = function (setter:any, isPhoto:any) {
         // console.log('camera handler', setter);
         // isPhoto = true,
         // cameraGPSFunction = setter;
         // openCameraGPS(isPhoto);
+      }
+
+      //custom function to trigger setResponsMobile to run from outside form-gear, you can custom the function name 
+      let mobileExit = (fun:any) => {
+        // fun()
       }
 
       let onlineSearch = async (url:any) =>
@@ -93,16 +126,17 @@ const App: Component = () => {
         // console.log('coordinat ', koordinat)
       }
 
-      let form = FormGear(template, preset, response, validation, remark, config, uploadHandler, GpsHandler, onlineSearch, setResponseMobile, setSubmitMobile, openMap);
+      let form = FormGear(reference, template, preset, response, validation, remark, config, uploadHandler, GpsHandler, offlineSearch, onlineSearch, mobileExit, setResponseMobile, setSubmitMobile, openMap);
+
 
       return form;
     }
     
     const data = Promise.all([
-      template, preset, response, validation, remark
+      reference, template, preset, response, validation, remark
     ]);
     
-    data.then(([template, preset, response, validation, remark]) => initForm(template, preset, response, validation, remark));
+    data.then(([reference, template, preset, response, validation, remark]) => initForm(reference, template, preset, response, validation, remark));
 
 
   return (
