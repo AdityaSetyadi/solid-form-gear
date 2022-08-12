@@ -6,23 +6,25 @@ import reference  from './data/reference.json'
 import template  from './data/template.json'
 import preset  from './data/preset.json'
 import response  from './data/response.json'
+import media  from './data/media.json'
 import validation  from './data/validation.json'
 import remark  from './data/remark.json'
 
 
 const App: Component = () => {
   
-    function initForm(reference: any, template:any, preset:any, response:any, validation:any, remark:any){
+    function initForm(reference: any, template:any, preset:any, response:any, validation:any, media:any, remark:any){
 
       let config = {
-        clientMode: 1, // CAWI = 1, CAPI = 2
-        token: `aeyJ0eXA`,
-        baseUrl: `https://api-survey.bps.go.id/designer/api/lookup-data/json`,
-        lookupKey: `key%5B%5D`,
-        lookupValue: `value%5B%5D`,
-        lookupMode : 1, // 1 => ONLINE ; 2 => OFFLINE
+        clientMode: 1, // 1 => CAWI ; 2 => CAPI ;
+        //both token and baseUrl are used for data lookup from the api (for selectInput, multiselect Input, and listSelectInput)
+        token: ``, //for authentication such as bearer token 
+        baseUrl: ``,
+        lookupKey: `keys`, //optional
+        lookupValue: `values`, //optional
+        lookupMode: 1, // 1 => ONLINE ; 2 => OFFLINE
         username: 'AdityaSetyadi', //
-        formMode: 1, // 1 => OPEN ; 2 => REJECTED ; 3 => SUBMITTED ; 4 => APPROVED ;
+        formMode: 1, // 1 => OPEN ; 2 => REVIEW ; 3 => CLOSE ;
         initialMode: 2 // 1=> INITIAL ; 2 => ASSIGN
       }
       
@@ -103,20 +105,27 @@ const App: Component = () => {
          }
       ));
 
-      let setResponseMobile = function (res:any, rem:any) {
-        // respons = res
-        // remarks = rem
-
-        // console.log('respons', respons)
-        // console.log('remarks', remarks)
+      //function to get response, remark, principal and reference
+      let setResponseMobile = function (res:any, med:any, rem:any, princ:any, ref:any) {
+      
+        console.log('----------', new Date(), '----------');
+      
+        console.log('response', res)
+        console.log('media', med)
+        console.log('remark', rem)
+        console.log('principal', princ)
+        console.log('reference', ref)
       }
-
-      let setSubmitMobile = function (res:any, rem:any) {
-        // respons = res
-        // remarks = rem
-
-        // console.log('respons submit', respons)
-        // console.log('remarks submit', remarks)
+      
+      let setSubmitMobile = function (res:any, med:any, rem:any, princ:any, ref:any) {
+        
+        console.log('----------', new Date(), '----------');
+      
+        console.log('response', res)
+        console.log('media', med)
+        console.log('remark', rem)
+        console.log('principal', princ)
+        console.log('reference', ref)
       }
 
       let openMap = function (koordinat:any) {
@@ -125,17 +134,16 @@ const App: Component = () => {
         // console.log('coordinat ', koordinat)
       }
 
-      let form = FormGear(reference, template, preset, response, validation, remark, config, uploadHandler, GpsHandler, offlineSearch, onlineSearch, mobileExit, setResponseMobile, setSubmitMobile, openMap);
-
+      let form = FormGear(reference, template, preset, response, validation, media, remark, config, uploadHandler, GpsHandler, offlineSearch, onlineSearch, mobileExit, setResponseMobile, setSubmitMobile, openMap);
 
       return form;
     }
     
     const data = Promise.all([
-      reference, template, preset, response, validation, remark
+      reference, template, preset, response, validation, media, remark
     ]);
     
-    data.then(([reference, template, preset, response, validation, remark]) => initForm(reference, template, preset, response, validation, remark));
+    data.then(([reference, template, preset, response, validation, media, remark]) => initForm(reference, template, preset, response, validation, media, remark));
 
 
   return (
